@@ -1,0 +1,332 @@
+/* ==========================================================
+   短文日記 style.css
+   テーマ: あたたかい紙のノート風（ライト / ダーク自動切替）
+   ========================================================== */
+
+/* ---------- 色・大きさの変数（ここを変えると全体の雰囲気が変わる） ---------- */
+:root {
+    --bg: #f7f1e6;
+    --surface: #fffdf8;
+    --text: #3b3228;
+    --muted: #8a7d6f;
+    --border: #e8dfd0;
+    --accent: #c8693a;
+    --accent-dark: #a8532a;
+    --accent-soft: #f8e6d9;
+    --danger: #c0392b;
+    --danger-soft: #fbeaea;
+    --warn: #d98a00;
+    --radius: 14px;
+    --shadow: 0 2px 6px rgba(80, 55, 30, 0.08), 0 8px 24px rgba(80, 55, 30, 0.06);
+    --font: "Hiragino Sans", "Yu Gothic UI", "Meiryo", "Noto Sans JP", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1f1b17;
+        --surface: #2a2520;
+        --text: #efe6d8;
+        --muted: #a39685;
+        --border: #3d362e;
+        --accent: #e08a5b;
+        --accent-dark: #f0a077;
+        --accent-soft: #3a2c22;
+        --danger: #ee7b6e;
+        --danger-soft: #3a2422;
+        --warn: #f0b04a;
+        --shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* ---------- 全体 ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0 16px 48px;
+    background-color: var(--bg);
+    /* ノートの罫線風のうっすらした背景 */
+    background-image: repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 31px,
+            rgba(160, 130, 90, 0.07) 31px,
+            rgba(160, 130, 90, 0.07) 32px
+    );
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* ---------- ヘッダー ---------- */
+.site-header {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 36px 0 20px;
+    text-align: center;
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+}
+
+.subtitle {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* ---------- カード（各セクション） ---------- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    margin-bottom: 22px;
+}
+
+.card h2 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+    padding-left: 10px;
+    border-left: 4px solid var(--accent);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+/* ---------- エラー表示 ---------- */
+.error {
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--danger);
+    background: var(--danger-soft);
+    color: var(--danger);
+    font-weight: 600;
+}
+
+/* 中身が空のときは表示しない */
+.error:empty {
+    display: none;
+}
+
+/* ---------- フォーム ---------- */
+textarea,
+input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 88px;
+}
+
+textarea::placeholder,
+input::placeholder {
+    color: var(--muted);
+}
+
+textarea:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.counter {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 90文字を超えたらJSで warn を付ける */
+.counter.warn {
+    color: var(--warn);
+    font-weight: 700;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.search-row {
+    display: flex;
+    gap: 8px;
+}
+
+.search-row input {
+    flex: 1;
+}
+
+/* ---------- ボタン ---------- */
+.btn {
+    padding: 9px 18px;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:focus-visible {
+    outline: 3px solid var(--accent-soft);
+    outline-offset: 2px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(200, 105, 58, 0.35);
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-soft);
+}
+
+.btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.btn-danger:hover {
+    background: var(--danger-soft);
+}
+
+.btn-small {
+    padding: 5px 12px;
+    font-size: 0.82rem;
+}
+
+/* hidden属性を確実に効かせる（編集をやめるボタン用） */
+[hidden] {
+    display: none !important;
+}
+
+/* ---------- 日記カード ---------- */
+#diary-list,
+#search-result {
+    color: var(--muted);
+}
+
+.diary-item {
+    position: relative;
+    margin-bottom: 14px;
+    padding: 14px 16px 12px 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: 10px;
+    color: var(--text);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.diary-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.diary-meta {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+}
+
+.diary-text {
+    margin: 6px 0 10px;
+    font-size: 1.02rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.diary-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* ---------- スマホ向け ---------- */
+@media (max-width: 480px) {
+    .site-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button-group .btn {
+        flex: 1;
+    }
+}
+
+/* 動きが苦手な人向けの配慮 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
