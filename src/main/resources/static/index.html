@@ -4,42 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>短文日記</title>
-    <style>
-        body { font-family: sans-serif; margin: 20px auto; max-width: 640px; }
-        textarea { width: 100%; box-sizing: border-box; }
-        .diary-item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 6px; }
-        .diary-item p { margin: 6px 0; white-space: pre-wrap; }
-        .error { color: red; font-weight: bold; }
-        .counter { font-size: 0.85em; color: #666; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>📔 短文日記</h1>
+<header class="site-header">
+    <h1>📔 短文日記</h1>
+    <p class="subtitle">今日の一言を、100文字以内で残そう。</p>
+</header>
 
-<div id="error-message" class="error"></div>
+<main class="container">
 
-<h2>今日の一言（登録 / 更新）</h2>
-<form id="diary-form">
-    <input type="hidden" id="edit-id">
-    <textarea id="content" rows="3" maxlength="100" placeholder="今日あったことを100文字以内で" required></textarea>
-    <div class="counter"><span id="count">0</span> / 100</div>
-    <button type="submit" id="submit-btn">日記を保存</button>
-    <button type="button" id="cancel-btn" hidden>編集をやめる</button>
-</form>
+    <div id="error-message" class="error" role="alert"></div>
 
-<hr>
+    <section class="card">
+        <h2>今日の一言</h2>
+        <form id="diary-form">
+            <input type="hidden" id="edit-id">
+            <textarea id="content" rows="3" maxlength="100" placeholder="今日あったことを書いてみよう" required></textarea>
+            <div class="form-footer">
+                <span class="counter"><span id="count">0</span> / 100</span>
+                <div class="button-group">
+                    <button type="button" id="cancel-btn" class="btn btn-secondary" hidden>編集をやめる</button>
+                    <button type="submit" id="submit-btn" class="btn btn-primary">日記を保存</button>
+                </div>
+            </div>
+        </form>
+    </section>
 
-<h2>日記一覧</h2>
-<button type="button" id="reload-btn">一覧を更新</button>
-<div id="diary-list"></div>
+    <section class="card">
+        <div class="card-header">
+            <h2>日記一覧</h2>
+            <button type="button" id="reload-btn" class="btn btn-secondary btn-small">一覧を更新</button>
+        </div>
+        <div id="diary-list"></div>
+    </section>
 
-<hr>
+    <section class="card">
+        <h2>ID指定で1件取得</h2>
+        <div class="search-row">
+            <input type="number" id="search-id" placeholder="日記ID">
+            <button type="button" id="search-btn" class="btn btn-primary">取得</button>
+        </div>
+        <div id="search-result"></div>
+    </section>
 
-<h2>ID指定で1件取得</h2>
-<input type="number" id="search-id" placeholder="日記ID">
-<button type="button" id="search-btn">取得</button>
-<div id="search-result"></div>
+</main>
 
 <script src="app.js"></script>
 </body>
